@@ -9,8 +9,8 @@ export class Watcher {
     this.exp = exp
     this.fn = fn
     this.pushTarget()
-    // console.log(target, exp, target[exp])
     this.value = target[exp]
+    this.popTarget()
   }
 
   pushTarget () {

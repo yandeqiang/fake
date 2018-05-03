@@ -2,22 +2,20 @@ import {Watcher} from './watcher'
 
 export class Dep {
   static target: Watcher|null
-  subs: Array<Watcher>
+  subs: Map<any, any>
   constructor () {
-    this.subs = []
+    this.subs = new Map()
   }
 
   // 收集依赖
-  depend (watcher: Watcher) {
+  depend (key: string, watcher: Watcher) {
     // console.log('depend')
-    this.subs.push(watcher)
+    this.subs.set(key, watcher)
   }
 
   // 触发依赖
-  notify (val: any) {
+  notify (key: string, val: any) {
     // console.log('notify')
-    this.subs.forEach(item => {
-      item.fn(val)
-    })
+    this.subs.get(key) && this.subs.get(key).fn(val)
   }
 }

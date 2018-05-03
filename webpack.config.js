@@ -11,7 +11,10 @@ module.exports = {
   mode: 'development',
   devtool: 'source-map',
   resolve: {
-    extensions: ['.ts', '.js', '.json']
+    extensions: ['.ts', '.js', '.json'],
+    alias: {
+      src: __dirname + '/src'
+    }
   },
   module: {
     rules: [

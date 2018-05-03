@@ -11,8 +11,32 @@
   <script>
     const vm = new FakeVue({
       data: {
-        a: 1,
-        b: 2
+        a: [
+          {name: 'a', value: 0},
+          {name: 'b', value: 1}
+        ],
+        b: {
+          c: 1,
+          d: 2
+        },
+        e: 2,
+        g: [1, 2, 3]
+      },
+      computed: {
+        f: function () {
+          return this.e * 2
+        }
+      },
+      watch: {
+        e: function(val, oldVal) {
+          console.log(val, oldVal)
+        },
+        g: function(val, oldVal) {
+          console.log(val, oldVal)
+        },
+        b: function(val, oldVal) {
+          console.log(val, oldVal)
+        }
       }
     })
   </script>

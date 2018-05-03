@@ -1,26 +1,37 @@
+import {isObject, isArray} from 'src/util/predict'
 import {Dep} from './dep'
 
-export function observe (data) {
+interface defineObject {
+  __dep__: Dep
+}
+
+export function observe (data: any): object {
+  if(!isObject(data)) return data; // return when data is non-object
+
+  // array & object
+  Object.keys(data).forEach(item => {
+    data[item] = observe(data[item])
+  })
+
   return defineReactive(data)
 }
 
-function defineReactive (data) {
-  const dep = new Dep();
-  return new Proxy(data, {
+function defineReactive (target: defineObject) {
+
+  const dep = new Dep()
+  return new Proxy(target, {
     get (target: object, key: string) {
-      // console.log(Dep.target)
       if(Dep.target) {
-        dep.depend(Dep.target)
+        dep.depend(key, Dep.target)
       }
       // 收集依赖
-      return target[key]
+      return Reflect.get(target, key)
     },
     set (target: object, key: string, value: any) {
-      // console.log('set')
       // 触发依赖
-      dep.notify(value)
+      dep.notify(key, value)
       // 再次收集依赖
-      target[key] = value
+      Reflect.set(target, key, value)
       return true
     }
   })
