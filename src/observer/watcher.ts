@@ -1,23 +1,41 @@
-import {Dep} from './dep'
+import {isObject, isArray, isPlainObject} from 'src/util/predict'
+import {deepAssign} from 'src/util/index'
+import {Dep, pushTarget, popTarget} from './dep'
+import {queueWatcher} from './scheduler'
+import {proxyToRaw} from './store'
+
+let id = 0
 
 export class Watcher {
+  id: number
   target: object
   exp: string
   fn: Function
   value: any
   constructor (target, exp, fn) {
+    this.id = id++
     this.exp = exp
     this.fn = fn
-    this.pushTarget()
-    this.value = target[exp]
-    this.popTarget()
+    this.target = target
+    this.value = this.get()
   }
 
-  pushTarget () {
-    Dep.target = this
+  get () {
+    const {target, exp} = this
+    pushTarget(this)
+    let value = Reflect.get(target, exp)
+    isArray(value) && value.length
+    popTarget()
+    return value
   }
 
-  popTarget () {
-    Dep.target = null
+  update (target) {
+    queueWatcher(this)
+  }
+
+  run () {
+    const oldValue = this.value
+    const value = this.value = this.get()
+    this.fn(oldValue, value)
   }
 }

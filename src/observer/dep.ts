@@ -8,14 +8,22 @@ export class Dep {
   }
 
   // 收集依赖
-  depend (key: string, watcher: Watcher) {
+  depend (key: string|symbol, watcher: Watcher) {
     // console.log('depend')
     this.subs.set(key, watcher)
   }
 
   // 触发依赖
-  notify (key: string, val: any) {
+  notify (key: string|symbol, val: any) {
     // console.log('notify')
-    this.subs.get(key) && this.subs.get(key).fn(val)
+    this.subs.get(key) && this.subs.get(key).update();
   }
+}
+
+export function pushTarget (watcher: Watcher) {
+  Dep.target = watcher
+}
+
+export function popTarget () {
+  Dep.target = null
 }

@@ -3,11 +3,11 @@
     "target": "ESNext",
     "baseUrl": ".",
     "paths": {
-      "src": ["src"]
+      "src": ["src/*"],
     }
   },
   "include": [
-    "src/**"
+    "src"
   ],
   "exclude": [
     "node_modules"
