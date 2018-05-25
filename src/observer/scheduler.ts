@@ -46,6 +46,7 @@ export function queueWatcher(watcher: Watcher) {
   }
 
   if(waiting) {
-    setTimeout(runQueue, 0)
+    // use mircotask
+    Promise.resolve().then(runQueue)
   }
 }

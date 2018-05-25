@@ -1,5 +1,4 @@
 import {isObject, isArray, isPlainObject} from 'src/util/predict'
-import {deepAssign} from 'src/util/index'
 import {Dep, pushTarget, popTarget} from './dep'
 import {queueWatcher} from './scheduler'
 import {proxyToRaw} from './store'
@@ -24,6 +23,7 @@ export class Watcher {
     const {target, exp} = this
     pushTarget(this)
     let value = Reflect.get(target, exp)
+    // value = transfer(value)
     isArray(value) && value.length
     popTarget()
     return value
@@ -39,3 +39,11 @@ export class Watcher {
     this.fn(oldValue, value)
   }
 }
+
+// function transfer (value) {
+//   const target = proxyToRaw.has(value) ? proxyToRaw.get(value) : value
+//   for(let i in target) {
+//     target[i] = transfer(target[i])
+//   }
+//   return target
+// }

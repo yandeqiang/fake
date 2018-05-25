@@ -7,9 +7,11 @@
   <title>Document</title>
 </head>
 <body>
+  <div class="app"></div>
   <script src="../lib/bundle.js"></script>
   <script>
     const vm = new FakeVue({
+      el: '.app',
       data: {
         // a: [
         //   {name: 'a', value: 0},
@@ -45,6 +47,13 @@
         h: function(val, oldVal) {
           console.log(val, oldVal)
         }
+      },
+      render (h) {
+        return h('div.a', {}, [
+          h('div.b', {key:1}, [
+            h('div.c', {key:1}, [this._vm.e])
+          ])
+        ])
       }
     })
   </script>

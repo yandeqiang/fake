@@ -1,5 +1,7 @@
 import {isObject, isArray, isPlainObject, isPrimitive} from './predict'
-export function deepAssign(target, source) {
+import nextTick from './next-tick'
+
+function deepAssign(target, source) {
   
   if(isObject(source)) {
     target = target || {}
@@ -11,4 +13,9 @@ export function deepAssign(target, source) {
     }
   }
   return source
+}
+
+export default {
+  nextTick,
+  deepAssign
 }

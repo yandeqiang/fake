@@ -1,3 +1,5 @@
+export function isUndef (s:any): boolean {return s === undefined}
+export function isDef (s:any): boolean {return s !== undefined}
 export function _toString () {
   return Object.prototype.toString()
 }

@@ -1,10 +1,15 @@
-import { observe } from "./observer/index"
-import { Watcher } from "./observer/watcher"
+import { observe } from './observer/index'
+import { Watcher } from './observer/watcher'
+import { createElement } from 'src/vdom/create-element'
+import patch from 'src/vdom/patch'
+import {VNode} from 'src/vdom/vnode'
 
 interface Options {
+  el: string
   data: object
   computed: object
   watch: object
+  render: Function
 }
 
 function proxy(target: object, sourceKey: string) {
@@ -16,10 +21,11 @@ class FakeVue {
   _data: object
   _computed: object
   _vm: FakeVue // proxy 监听 this 的返回值
+  _vnode: VNode|null
   vNode: object
   constructor(options) {
     this.$options = options
-    this.initVm()    
+    this.initVm()
     this.initData()
     this.initComputed()
     this.initWatch()
@@ -30,7 +36,9 @@ class FakeVue {
   initVm() {
     this._vm = new Proxy(this, {
       get(target, key, receiver) {
-        return target._data[key] || (target._computed[key] && target._computed[key]()) || target[key]
+        return (
+          target._data[key] || (target._computed[key] && target._computed[key]()) || target[key]
+        )
       },
       set(target, key, value) {
         if (target._data[key]) {
@@ -63,7 +71,19 @@ class FakeVue {
     })
   }
 
-  initRender() {}
+  initRender() {
+    this._update()
+    new Watcher(this._vm, 'e', this._update)
+  }
+
+  _update() {
+    console.log('update')
+    const {el, render} = this.$options
+    const oldVnode = this._vnode || document.querySelector(el)
+    const vnode = render.call(this, createElement)
+    patch(oldVnode, vnode)
+
+  }
 }
 
 export default FakeVue
