@@ -10,5 +10,5 @@
 
 * [x] 依赖收集
 * [x] 数据监听
-* [ ] vdom
-* [ ] render
+* [x] vdom
+* [x] render

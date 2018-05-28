@@ -3,6 +3,7 @@ import { Watcher } from './observer/watcher'
 import { createElement } from 'src/vdom/create-element'
 import patch from 'src/vdom/patch'
 import {VNode} from 'src/vdom/vnode'
+import {autobind} from 'src/decorator/index'
 
 interface Options {
   el: string
@@ -73,16 +74,15 @@ class FakeVue {
 
   initRender() {
     this._update()
-    new Watcher(this._vm, 'e', this._update)
+    new Watcher(this._vm, 'e', this._update.bind(this))
   }
 
   _update() {
-    console.log('update')
     const {el, render} = this.$options
     const oldVnode = this._vnode || document.querySelector(el)
     const vnode = render.call(this, createElement)
+    this._vnode = vnode
     patch(oldVnode, vnode)
-
   }
 }
 

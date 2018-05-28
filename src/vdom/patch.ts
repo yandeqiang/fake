@@ -23,7 +23,7 @@ function emptyNodeAt(elm: any) {
 }
 
 function isVnode(vnode: any) {
-  return isDef(vnode.sel)
+  return vnode && isDef(vnode.sel)
 }
 
 function removeVnodes (parentElm: Node, children: Array<VNode>) {

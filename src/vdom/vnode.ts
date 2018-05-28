@@ -2,7 +2,7 @@ export interface VNode {
   sel: string
   data: object
   children: Array<VNode>
-  text: string
+  text: any
   elm: Node|null
   key: string | number
 }
@@ -15,7 +15,7 @@ export default function toVnode (
   sel: string|undefined,
   data: vNodeData|undefined,
   children: Array<VNode>|undefined,
-  text: string|undefined,
+  text: string|number|undefined,
   elm: Node|null
 ):VNode {
   const key = data && data.key
