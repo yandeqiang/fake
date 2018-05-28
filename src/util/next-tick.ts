@@ -2,6 +2,4 @@
  * nextTick.ts
  */
 
-export default function nextTick () {
-
-}
+export default function nextTick() {}

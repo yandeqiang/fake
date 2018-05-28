@@ -1,7 +1,7 @@
-import {isObject, isArray, isPlainObject} from 'src/util/predict'
-import {Dep, pushTarget, popTarget} from './dep'
-import {queueWatcher} from './scheduler'
-import {proxyToRaw} from './store'
+import { isObject, isArray, isPlainObject } from 'src/util/predict'
+import { Dep, pushTarget, popTarget } from './dep'
+import { queueWatcher } from './scheduler'
+import { proxyToRaw } from './store'
 
 let id = 0
 
@@ -11,7 +11,7 @@ export class Watcher {
   exp: string
   fn: Function
   value: any
-  constructor (target, exp, fn) {
+  constructor(target, exp, fn) {
     this.id = id++
     this.exp = exp
     this.fn = fn
@@ -19,8 +19,8 @@ export class Watcher {
     this.value = this.get()
   }
 
-  get () {
-    const {target, exp} = this
+  get() {
+    const { target, exp } = this
     pushTarget(this)
     let value = Reflect.get(target, exp)
     // value = transfer(value)
@@ -29,13 +29,13 @@ export class Watcher {
     return value
   }
 
-  update (target) {
+  update(target) {
     queueWatcher(this)
   }
 
-  run () {
+  run() {
     const oldValue = this.value
-    const value = this.value = this.get()
+    const value = (this.value = this.get())
     this.fn(oldValue, value)
   }
 }

@@ -2,8 +2,8 @@ import { observe } from './observer/index'
 import { Watcher } from './observer/watcher'
 import { createElement } from 'src/vdom/create-element'
 import patch from 'src/vdom/patch'
-import {VNode} from 'src/vdom/vnode'
-import {autobind} from 'src/decorator/index'
+import { VNode } from 'src/vdom/vnode'
+import { autobind } from 'src/decorator/index'
 
 interface Options {
   el: string
@@ -22,7 +22,7 @@ class FakeVue {
   _data: object
   _computed: object
   _vm: FakeVue // proxy 监听 this 的返回值
-  _vnode: VNode|null
+  _vnode: VNode | null
   vNode: object
   constructor(options) {
     this.$options = options
@@ -78,7 +78,7 @@ class FakeVue {
   }
 
   _update() {
-    const {el, render} = this.$options
+    const { el, render } = this.$options
     const oldVnode = this._vnode || document.querySelector(el)
     const vnode = render.call(this, createElement)
     this._vnode = vnode

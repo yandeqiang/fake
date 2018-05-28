@@ -1,4 +1,4 @@
-import { Watcher } from "./watcher"
+import { Watcher } from './watcher'
 
 /**
  * scheduler.ts
@@ -11,7 +11,7 @@ let index = 0
 let flushing = false
 let waiting = true
 
-function resetQueue () {
+function resetQueue() {
   hasQueue = new Set()
   queue = []
   index = 0
@@ -19,7 +19,7 @@ function resetQueue () {
   waiting = true
 }
 
-function runQueue () {
+function runQueue() {
   flushing = true
   waiting = false
 
@@ -41,11 +41,11 @@ export function queueWatcher(watcher: Watcher) {
     queue.push(watcher)
   } else {
     let i = queue.length - 1
-    while(i > index && queue[i].id > watcher.id) i--
+    while (i > index && queue[i].id > watcher.id) i--
     queue.splice(i, 0, watcher)
   }
 
-  if(waiting) {
+  if (waiting) {
     // use mircotask
     Promise.resolve().then(runQueue)
   }

@@ -6,7 +6,6 @@ module.exports = {
     library: 'FakeVue',
     libraryTarget: 'umd',
     libraryExport: 'default'
-    
   },
   mode: 'development',
   devtool: 'source-map',
@@ -22,4 +21,4 @@ module.exports = {
       { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' }
     ]
   }
-};
+}
